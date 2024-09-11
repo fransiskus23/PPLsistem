@@ -8,47 +8,64 @@ class Jabatan(models.Model):
     def __str__(self):
         return self.nama_jabatan
 
-
 class Karyawan(models.Model):
     id_karyawan = models.AutoField(primary_key=True)
     nama = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    ttl = models.DateField()  # Tanggal lahir
-    tgl_bergabung = models.DateField()  # Tanggal bergabung
+    ttl = models.DateField()
     alamat = models.TextField()
     no_hp = models.CharField(max_length=15)
-    id_jabatan = models.ForeignKey(Jabatan, on_delete=models.CASCADE, related_name='karyawan')
+    tgl_bergabung = models.DateField()
+    jabatan = models.ForeignKey(Jabatan, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nama
 
-
 class Presensi(models.Model):
     id_presensi = models.AutoField(primary_key=True)
     tanggal = models.DateField()
-    status = models.CharField(max_length=10, choices=[('hadir', 'Hadir'), ('tidak', 'Tidak'), ('cuti', 'Cuti'), ('sakit', 'Sakit')])
-    id_karyawan = models.ForeignKey(Karyawan, on_delete=models.CASCADE, related_name='presensi')
+    status = models.CharField(max_length=20, choices=[
+        ('hadir', 'Hadir'),
+        ('tidak', 'Tidak Hadir'),
+        ('cuti', 'Cuti'),
+        ('sakit', 'Sakit')
+    ])
+    karyawan = models.ForeignKey(Karyawan, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Presensi {self.id_karyawan} pada {self.tanggal}"
+        return f"{self.karyawan.nama} - {self.tanggal}"
 
-
-class Gaji(models.Model):
-    id_gaji = models.AutoField(primary_key=True)
-    minggu = models.IntegerField()
-    bulan = models.IntegerField()
-    total_gaji = models.DecimalField(max_digits=15, decimal_places=2)
-    id_karyawan = models.ForeignKey(Karyawan, on_delete=models.CASCADE, related_name='gaji')
+class MasterGaji(models.Model):
+    id_master_gaji = models.AutoField(primary_key=True)
+    komponen_gaji = models.CharField(max_length=100)
+    deskripsi = models.TextField()
 
     def __str__(self):
-        return f"Gaji {self.id_karyawan} - Minggu {self.minggu}, Bulan {self.bulan}"
+        return self.komponen_gaji
 
-
-class Potongan(models.Model):
-    id_potongan = models.AutoField(primary_key=True)
-    jenis_potongan = models.CharField(max_length=20, choices=[('pinjaman', 'Pinjaman'), ('potongan', 'Potongan')])
-    jumlah_potongan = models.DecimalField(max_digits=15, decimal_places=2)
-    id_gaji = models.ForeignKey(Gaji, on_delete=models.CASCADE, related_name='potongan')
+class SlipGaji(models.Model):
+    id_slip_gaji = models.AutoField(primary_key=True)
+    karyawan = models.ForeignKey(Karyawan, on_delete=models.CASCADE)
+    periode = models.CharField(max_length=20, choices=[
+        ('minggu', 'Minggu'),
+        ('bulan', 'Bulan'),
+        ('tahun', 'Tahun')
+    ])
+    total_gaji = models.DecimalField(max_digits=12, decimal_places=2)
 
     def __str__(self):
-        return f"Potongan {self.jenis_potongan} sebesar {self.jumlah_potongan}"
+        return f"Slip Gaji {self.karyawan.nama} - {self.periode}"
+
+class ItemGaji(models.Model):
+    id_item_gaji = models.AutoField(primary_key=True)
+    slip_gaji = models.ForeignKey(SlipGaji, on_delete=models.CASCADE)
+    jenis_item = models.CharField(max_length=50, choices=[
+        ('gaji_pokok', 'Gaji Pokok'),
+        ('bonus', 'Bonus'),
+        ('pinjaman', 'Pinjaman'),
+        ('potongan', 'Potongan')
+    ])
+    jumlah = models.DecimalField(max_digits=12, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.jenis_item} - {self.jumlah}"
