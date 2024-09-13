@@ -152,8 +152,23 @@
     line-height: 1;
     color: #333439; }
 
-body[data-background-color="dark"] .demo-icon .icon-preview {
-  color: #969696; }
+    body {
+      background-image: url('/static/img/bgDainang.jpg'); /* Ganti dengan path ke gambar kamu */
+      background-size: cover; /* Agar gambar memenuhi seluruh halaman */
+      background-position: center; /* Menyelaraskan gambar di tengah */
+      background-repeat: no-repeat; /* Menghindari pengulangan gambar */
+      background-attachment: fixed; /* Agar background tidak ikut scroll */
+    }
+    
+    body[data-background-color="dark"] {
+      background-image: url('/static/img/darkBackground.jpg'); /* Contoh background lain untuk tema gelap */
+    }
+    
+    /* Tambahan untuk memastikan background image selalu terganti */
+    body.change-bg {
+      background-image: url('/static/img/newBackground.jpg'); /* Path ke gambar background baru */
+    }
+     
 
 .demo-icon .icon-class {
   font-weight: 300;
