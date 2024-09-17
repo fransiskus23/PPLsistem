@@ -8,7 +8,7 @@ class Jabatan(models.Model):
     def __str__(self):
         return self.nama_jabatan
 
-class Karyawan(models.Model):
+class KaryawanCasual(models.Model):
     id_karyawan = models.AutoField(primary_key=True)
     nama = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -30,7 +30,7 @@ class Presensi(models.Model):
         ('cuti', 'Cuti'),
         ('sakit', 'Sakit')
     ])
-    karyawan = models.ForeignKey(Karyawan, on_delete=models.CASCADE)
+    karyawan = models.ForeignKey(KaryawanCasual, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.karyawan.nama} - {self.tanggal}"
@@ -45,7 +45,7 @@ class MasterGaji(models.Model):
 
 class SlipGaji(models.Model):
     id_slip_gaji = models.AutoField(primary_key=True)
-    karyawan = models.ForeignKey(Karyawan, on_delete=models.CASCADE)
+    karyawan = models.ForeignKey(KaryawanCasual, on_delete=models.CASCADE)
     periode = models.CharField(max_length=20, choices=[
         ('minggu', 'Minggu'),
         ('bulan', 'Bulan'),

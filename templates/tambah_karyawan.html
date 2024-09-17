@@ -18,10 +18,10 @@
         </ul>
     {% endif %}
 
-    <form method="post" action="{% url 'post_karyawan' %}">
+    <!-- Formulir untuk menambahkan karyawan baru -->
+    <form method="post" action="{% url 'tambah_karyawan' %}">
         {% csrf_token %}
-        <label for="karyawanid">ID Karyawan:</label>
-        <input type="text" id="karyawanid" name="karyawanid" required>
+        {{ form.as_p }}  <!-- Render form secara otomatis dari form Django -->
         <button type="submit">Tambah Karyawan</button>
     </form>
 

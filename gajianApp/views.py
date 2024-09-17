@@ -1,32 +1,22 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib import messages
+from .models import KaryawanCasual
+from .forms import KaryawanCasualForm
 
-# Create your views here.
+def tambah_karyawan(request):
+    if request.method == 'POST':
+        form = KaryawanCasualForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('daftar_karyawan')  # Redirect ke halaman daftar karyawan
+    else:
+        form = KaryawanCasualForm()
+    
+    return render(request, 'tambah_karyawan.html', {'form': form})
+
+def daftar_karyawan(request):
+    karyawan_list = KaryawanCasual.objects.all()
+    return render(request, 'daftar_karyawan.html', {'karyawan_list': karyawan_list})
 
 def index(request):
     return render(request, 'index.html')
-
-def tambah_karyawan(request):
-    return render(request, 'tambah-karyawan.html')
-
-def post_karyawan(request):
-    if request.method == 'POST':
-        karyawanid = request.POST.get('karyawanid')
-        if karyawanid:
-            # Jika ada karyawanid, lanjutkan proses.
-            messages.success(request, 'Karyawan berhasil ditambahkan!')
-            return HttpResponse(f"Karyawan ID: {karyawanid}")
-        else:
-            # Jika karyawanid tidak ada, berikan pesan kesalahan.
-            messages.error(request, 'Karyawan ID tidak boleh kosong!')
-            return redirect('tambah_karyawan')
-    else:
-        # Jika request bukan POST, kembalikan ke halaman tambah_karyawan
-        return redirect('tambah_karyawan')
-    
-from django.shortcuts import render
-
-def casual_karyawan(request):
-    return render(request, 'karyawan/casual.html')
 
