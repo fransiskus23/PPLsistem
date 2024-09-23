@@ -1,0 +1,22 @@
+/* Container logo */
+.logo-container {
+  display: flex; /* Membuat logo dan teks berada di satu baris */
+  align-items: center; /* Vertikal menyelaraskan item */
+  padding: 10px;
+}
+
+/* Membuat logo berbentuk lingkaran */
+.logo {
+  width: 50px; /* Sesuaikan ukuran logo */
+  height: 50px; /* Sama dengan lebar agar menjadi lingkaran */
+  border-radius: 50%; /* Membuat elemen img menjadi lingkaran */
+  object-fit: cover; /* Agar gambar sesuai dengan ukuran */
+  margin-right: 10px; /* Ruang antara logo dan teks */
+}
+
+/* Styling teks di samping logo */
+.logo-text {
+  font-size: 16px; /* Ukuran teks */
+  color: #ffffff; /* Warna teks */
+  font-weight: bold;
+}

@@ -5,7 +5,7 @@ from gajianApp import views
 
 
 urlpatterns = [
-    path('index', index, name='index'),
+    path('index', views.index, name='index'),
     path('tempates/tambah',views.tambah_karyawan, name = 'tambah_karyawan'),
     path('daftar/', views.daftar_karyawan, name='daftar_karyawan'),
     

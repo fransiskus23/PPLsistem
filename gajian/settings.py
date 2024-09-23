@@ -76,8 +76,8 @@ WSGI_APPLICATION = 'gajian.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'django.db',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'siDainang',
         'USER':'root',
         'PASSWORD':'2304',
         'HOST':'localhost',

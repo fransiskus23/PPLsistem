@@ -4,26 +4,317 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Karyawan</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="icon" href="/static/css/bootstrap.min.css" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="/static/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["/static/css/fonts.min.css"],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/plugins.min.css" />
+    <link rel="stylesheet" href="/static/css/kaiadmin.min.css" />
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" href="/static/css/demo.css" />
 </head>
 <body>
 
-    <h2>Tambah Karyawan</h2>
+    <div class="sidebar" data-background-color="dark">
+        <div class="sidebar-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+                <a href="index.html" class="logo">
+                    <img src="/static/img/kaiadmin/logo.jpg" alt="navbar brand" class="navbar-brand"
+                        height="20" />
+                </a>
+                <div class="nav-toggle">
+                    <button class="btn btn-toggle toggle-sidebar">
+                        <i class="gg-menu-right"></i>
+                    </button>
+                    <button class="btn btn-toggle sidenav-toggler">
+                        <i class="gg-menu-left"></i>
+                    </button>
+                </div>
+                <button class="topbar-toggler more">
+                    <i class="gg-more-vertical-alt"></i>
+                </button>
+            </div>
+            <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+            <div class="sidebar-content">
+                <ul class="nav nav-secondary">
+                    <li class="nav-item active">
+                        <a href="{% url 'index' %}">
+                            <i class="fas fa-home"></i>
+                            <p>Dashboard</p>
+                            <!-- <span class="caret"></span>
+            </a>
+            <div class="collapse" id="dashboard">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="../demo1/index.html">
+                    <span class="sub-item">Dashboard 1</span>
+                  </a>
+                </li>
+              </ul>
+            </div> -->
+                    </li>
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </span>
+                        <!-- <h4 class="text-section">Karyawan</h4> -->
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#karyawan">
+                            <i class="fas fa-layer-group"></i>
+                            <p>Karyawan</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="karyawan">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="{% url 'karyawan_casual' %}">
+                                        <span class="sub-item">Casual</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="components/buttons.html">
+                                        <span class="sub-item">Tetap</span>
+                                    </a>
+                                </li>
 
-    <!-- Menampilkan pesan flash -->
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#presensi">
+                            <i class="fas fa-th-list"></i>
+                            <p>Presensi</p>
+                            <span class="caret"></span>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#mastergaji">
+                            <i class="fas fa-pen-square"></i>
+                            <p>Master Gaji</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="forms">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="forms/forms.html">
+                                        <span class="sub-item">Basic Form</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#slipgaji">
+                            <i class="fas fa-table"></i>
+                            <p>Slip Gaji</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="tables">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="tables/datatables.html">
+                                        <span class="sub-item">Datatables</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#itemgaji">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Item Gaji</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="maps">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="maps/googlemaps.html">
+                                        <span class="sub-item">Google Maps</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="maps/jsvectormap.html">
+                                        <span class="sub-item">Jsvectormap</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
 
-    <!-- Formulir untuk menambahkan karyawan baru -->
-    <form method="post" action="{% url 'tambah_karyawan' %}">
-        {% csrf_token %}
-        {{ form.as_p }}  <!-- Render form secara otomatis dari form Django -->
-        <button type="submit">Tambah Karyawan</button>
-    </form>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#submenu">
+                            <i class="fas fa-bars"></i>
+                            <p>Menu Levels</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="submenu">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a data-bs-toggle="collapse" href="#subnav1">
+                                        <span class="sub-item">Level 1</span>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="collapse" id="subnav1">
+                                        <ul class="nav nav-collapse subnav">
+                                            <li>
+                                                <a href="#">
+                                                    <span class="sub-item">Level 2</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="sub-item">Level 2</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a data-bs-toggle="collapse" href="#subnav2">
+                                        <span class="sub-item">Level 1</span>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="collapse" id="subnav2">
+                                        <ul class="nav nav-collapse subnav">
+                                            <li>
+                                                <a href="#">
+                                                    <span class="sub-item">Level 2</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Level 1</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row"></div>
+        <h2 class="btn btn-primary btn-round">Tambahkan Karyawan</h2>
+        <div class="col-sm-12">
+            <table class="table table-bordered table-striped">
+                <!-- Menampilkan pesan flash -->
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                <!-- Formulir untuk menambahkan karyawan baru -->
+                    <form method="post" action="{% url 'tambah_karyawan' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}  <!-- Render form secara otomatis dari form Django -->
+                        <button type="submit">Tambah Karyawan</button>
+                    </form>
+            </table>
+        </div>
+    </div>
+
+
+    <!--   Core JS Files   -->
+  <script src="/static/js/core/jquery-3.7.1.min.js"></script>
+  <script src="/static/js/core/popper.min.js"></script>
+  <script src="/static/js/core/bootstrap.min.js"></script>
+
+  <!-- jQuery Scrollbar -->
+  <script src="/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+  <!-- Chart JS -->
+  <script src="/static/js/plugin/chart.js/chart.min.js"></script>
+
+  <!-- jQuery Sparkline -->
+  <script src="/static/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+
+  <!-- Chart Circle -->
+  <script src="/static/js/plugin/chart-circle/circles.min.js"></script>
+
+  <!-- Datatables -->
+  <script src="/static/js/plugin/datatables/datatables.min.js"></script>
+
+  <!-- Bootstrap Notify -->
+  <script src="/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+  <!-- jQuery Vector Maps -->
+  <script src="/static/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+  <script src="/static/js/plugin/jsvectormap/world.js"></script>
+
+  <!-- Sweet Alert -->
+  <script src="/static/js/plugin/sweetalert/sweetalert.min.js"></script>
+
+  <!-- Kaiadmin JS -->
+  <script src="/static/js/kaiadmin.min.js"></script>
+
+  <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+  <script src="/static/js/setting-demo.js"></script>
+  <script src="/static/js/demo.js"></script>
+  <script>
+    $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+      type: "line",
+      height: "70",
+      width: "100%",
+      lineWidth: "2",
+      lineColor: "#177dff",
+      fillColor: "rgba(23, 125, 255, 0.14)",
+    });
+
+    $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+      type: "line",
+      height: "70",
+      width: "100%",
+      lineWidth: "2",
+      lineColor: "#f3545d",
+      fillColor: "rgba(243, 84, 93, .14)",
+    });
+
+    $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+      type: "line",
+      height: "70",
+      width: "100%",
+      lineWidth: "2",
+      lineColor: "#ffa534",
+      fillColor: "rgba(255, 165, 52, .14)",
+    });
+  </script>
 
 </body>
 </html>
