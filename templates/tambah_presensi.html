@@ -4,8 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar Karyawan Casual</title>
-  <!-- Tambahkan CSS Bootstrap untuk styling tabel -->
+  <title>Tambah Presensi</title>
   <link rel="stylesheet" href="/static/css/bootstrap.min.css">
   <link rel="icon" href="/static/css/bootstrap.min.css" type="image/x-icon" />
 
@@ -70,16 +69,16 @@
                 <i class="fas fa-home"></i>
                 <p>Dashboard</p>
                 <!-- <span class="caret"></span>
-                </a>
-                <div class="collapse" id="dashboard">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="../demo1/index.html">
-                        <span class="sub-item">Dashboard 1</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div> -->
+              </a>
+              <div class="collapse" id="dashboard">
+                <ul class="nav nav-collapse">
+                  <li>
+                    <a href="../demo1/index.html">
+                      <span class="sub-item">Dashboard 1</span>
+                    </a>
+                  </li>
+                </ul>
+              </div> -->
             </li>
             <li class="nav-section">
               <span class="sidebar-mini-icon">
@@ -126,7 +125,7 @@
               </div>
             </li>
             <li class="nav-item">
-              <a href="{% url 'slipGaji' %}">
+              <a data-bs-toggle="collapse" href="{% url 'slipGaji' %}">
                 <i class="fas fa-table"></i>
                 <p>Slip Gaji</p>
                 <span class="caret"></span>
@@ -147,25 +146,25 @@
               </div>
             </li>
             <li class="nav-item">
-              <a href="{% url 'itemGaji' %}">
+              <a data-bs-toggle="collapse" href="#itemgaji">
                 <i class="fas fa-map-marker-alt"></i>
                 <p>Item Gaji</p>
                 <span class="caret"></span>
               </a>
-              <!-- <div class="collapse" id="maps">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a href="maps/googlemaps.html">
-                                            <span class="sub-item">Google Maps</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="maps/jsvectormap.html">
-                                            <span class="sub-item">Jsvectormap</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div> -->
+              <div class="collapse" id="maps">
+                <ul class="nav nav-collapse">
+                  <li>
+                    <a href="maps/googlemaps.html">
+                      <span class="sub-item">Google Maps</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="maps/jsvectormap.html">
+                      <span class="sub-item">Jsvectormap</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </li>
 
             <li class="nav-item">
@@ -511,155 +510,141 @@
         <!-- End Navbar -->
       </div>
 
-      <!-- untuk konten ditaruh disini -->
       <div class="container">
         <div class="page-inner">
+          <!-- Header Section -->
           <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
-              <h3 class="fw-bold mb-3">Daftar Karyawan</h3>
-              <h6 class="op-7 mb-2"></h6>
-              {% if messages %}
-              <ul class="messages">
-                {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                  {% endfor %}
-              </ul>
-              {% endif %}
+              <h3 class="fw-bold mb-3">Daftar Presensi</h3>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-              <a href="{% url 'tambah_karyawan' %}" class="btn btn-primary btn-round">Tambah Karyawan</a>
+              <!-- Uncomment jika diperlukan -->
+              <!-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
+              <a href="{% url 'tambah_karyawan' %}" class="btn btn-primary btn-round">Tambah Karyawan</a> -->
             </div>
+          </div>
+      
+          <!-- Form Section -->
+          <h2 class="btn btn-primary btn-round mb-4">Tambahkan Presensi</h2>
+          
+          
+          <form>
+            <div class="form-group">
+              <label for="nama_karyawan">Nama Karyawan</label>
+              <input type="text" class="form-control" id="nama_karyawan" placeholder>
+              <label for="tanggal">Tanggal</label>
+              <input type="date" class="form-control" id="tanggal" placeholder>
+              <label for="status">Status</label>
+              <select class="form-control" id="status">
+                <option value="hadir">Hadir</option>
+                <option value="tidak hadir">Tidak Hadir</option>
+                <option value="izin">Izin</option>
+                <option value="cuti">Cuti</option>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </select>
+            </div>
+          </form>
 
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <table class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Tanggal Lahir</th>
-                    <th>No HP</th>
-                    <th>Tanggal Bergabung</th>
-                    <th>Jabatan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for karyawan in karyawan_list %}
-                  <tr>
-                    <td>{{ karyawan.nama }}</td>
-                    <td>{{ karyawan.email}}</td>
-                    <td>{{ karyawan.ttl}}</td>
-                    <td>{{ karyawan.no_hp}}</td>
-                    <td>{{ karyawan.tgl_bergabung}}</td>
-                    <td>{{ karyawan.jabatan}}</td>
-                  </tr>
-                  {% empty %}
-                  <tr>
-                    <td colspan="6" class="text-center">Tidak ada data karyawan</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+
+        </div>
+      </div>      
+      
+        <!-- Footer Section -->
+        <footer class="footer">
+          <div class="container-fluid d-flex justify-content-between">
+            <nav class="pull-left">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="http://www.themekita.com">ThemeKita</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Help</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Licenses</a>
+                </li>
+              </ul>
+            </nav>
+            <div class="copyright">
+              2024, made with <i class="fa fa-heart heart text-danger"></i> by
+              <a href="http://www.themekita.com">ThemeKita</a>
+            </div>
+            <div>
+              Distributed by
+              <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
             </div>
           </div>
-        </div>
+        </footer>
       </div>
-
-      <footer class="footer">
-        <div class="container-fluid d-flex justify-content-between">
-          <nav class="pull-left">
-            <ul class="nav">
-              <li class="nav-item">
-                <a class="nav-link" href="http://www.themekita.com">
-                  ThemeKita
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"> Help </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"> Licenses </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright">
-            2024, made with <i class="fa fa-heart heart text-danger"></i> by
-            <a href="http://www.themekita.com">ThemeKita</a>
-          </div>
-          <div>
-            Distributed by
-            <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
-          </div>
-        </div>
-      </footer>
     </div>
-  </div>
+      
 
-  <!--   Core JS Files   -->
-  <script src="/static/js/core/jquery-3.7.1.min.js"></script>
-  <script src="/static/js/core/popper.min.js"></script>
-  <script src="/static/js/core/bootstrap.min.js"></script>
 
-  <!-- jQuery Scrollbar -->
-  <script src="/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+        <!--   Core JS Files   -->
+        <script src="/static/js/core/jquery-3.7.1.min.js"></script>
+        <script src="/static/js/core/popper.min.js"></script>
+        <script src="/static/js/core/bootstrap.min.js"></script>
 
-  <!-- Chart JS -->
-  <script src="/static/js/plugin/chart.js/chart.min.js"></script>
+        <!-- jQuery Scrollbar -->
+        <script src="/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
-  <!-- jQuery Sparkline -->
-  <script src="/static/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+        <!-- Chart JS -->
+        <script src="/static/js/plugin/chart.js/chart.min.js"></script>
 
-  <!-- Chart Circle -->
-  <script src="/static/js/plugin/chart-circle/circles.min.js"></script>
+        <!-- jQuery Sparkline -->
+        <script src="/static/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 
-  <!-- Datatables -->
-  <script src="/static/js/plugin/datatables/datatables.min.js"></script>
+        <!-- Chart Circle -->
+        <script src="/static/js/plugin/chart-circle/circles.min.js"></script>
 
-  <!-- Bootstrap Notify -->
-  <script src="/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+        <!-- Datatables -->
+        <script src="/static/js/plugin/datatables/datatables.min.js"></script>
 
-  <!-- jQuery Vector Maps -->
-  <script src="/static/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-  <script src="/static/js/plugin/jsvectormap/world.js"></script>
+        <!-- Bootstrap Notify -->
+        <script src="/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
 
-  <!-- Sweet Alert -->
-  <script src="/static/js/plugin/sweetalert/sweetalert.min.js"></script>
+        <!-- jQuery Vector Maps -->
+        <script src="/static/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+        <script src="/static/js/plugin/jsvectormap/world.js"></script>
 
-  <!-- Kaiadmin JS -->
-  <script src="/static/js/kaiadmin.min.js"></script>
+        <!-- Sweet Alert -->
+        <script src="/static/js/plugin/sweetalert/sweetalert.min.js"></script>
 
-  <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-  <script src="/static/js/setting-demo.js"></script>
-  <script src="/static/js/demo.js"></script>
-  <script>
-    $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-      type: "line",
-      height: "70",
-      width: "100%",
-      lineWidth: "2",
-      lineColor: "#177dff",
-      fillColor: "rgba(23, 125, 255, 0.14)",
-    });
+        <!-- Kaiadmin JS -->
+        <script src="/static/js/kaiadmin.min.js"></script>
 
-    $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-      type: "line",
-      height: "70",
-      width: "100%",
-      lineWidth: "2",
-      lineColor: "#f3545d",
-      fillColor: "rgba(243, 84, 93, .14)",
-    });
+        <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+        <script src="/static/js/setting-demo.js"></script>
+        <script src="/static/js/demo.js"></script>
+        <script>
+          $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#177dff",
+            fillColor: "rgba(23, 125, 255, 0.14)",
+          });
 
-    $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-      type: "line",
-      height: "70",
-      width: "100%",
-      lineWidth: "2",
-      lineColor: "#ffa534",
-      fillColor: "rgba(255, 165, 52, .14)",
-    });
-  </script>
+          $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#f3545d",
+            fillColor: "rgba(243, 84, 93, .14)",
+          });
+
+          $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#ffa534",
+            fillColor: "rgba(255, 165, 52, .14)",
+          });
+        </script>
+
 </body>
 
 </html>
