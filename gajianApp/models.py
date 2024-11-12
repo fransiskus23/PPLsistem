@@ -26,7 +26,7 @@ class Presensi(models.Model):
     tanggal = models.DateField()
     status = models.CharField(max_length=20, choices=[
         ('hadir', 'Hadir'),
-        ('tidak', 'Tidak Hadir'),
+        ('tidak hadir', 'Tidak Hadir'),
         ('cuti', 'Cuti'),
         ('sakit', 'Sakit')
     ])

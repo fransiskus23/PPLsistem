@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, tambah_karyawan
+from .views import index, tambah_karyawan, tambah_presensi
 from django.contrib.auth import views as auth_views 
 from gajianApp import views
 from .views import login_view
@@ -22,5 +22,5 @@ urlpatterns = [
 
     path('itemGaji/', views.item_gaji_list, name='itemGaji'),
 
-    path('tambah_presensi', views.tambah_presensi, name='tambah_presensi')
+    path('tambah_presensi', tambah_presensi, name='tambah_presensi')
 ]

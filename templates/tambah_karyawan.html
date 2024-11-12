@@ -527,19 +527,19 @@
           <!-- Form Section -->
           <h2 class="btn btn-primary btn-round mb-4">Tambahkan Karyawan</h2>
 
-{% if messages %}
-    {% for message in messages %}
-        <div class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %}">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %}">
             {{ message }}
-        </div>
-    {% endfor %}
-{% endif %}
+          </div>
+          {% endfor %}
+          {% endif %}
 
-<form method="POST" action="{% url 'tambah_karyawan' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary mt-3">Simpan</button>
-</form>
+          <form method="POST" action="{% url 'tambah_karyawan' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+          </form>
 
 
         </div>

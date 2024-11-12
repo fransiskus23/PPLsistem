@@ -1,6 +1,7 @@
 # casual_karyawan/forms.py
 from django import forms
 from .models import KaryawanCasual
+from .models import Presensi
 
 
 class KaryawanCasualForm(forms.ModelForm):
@@ -47,14 +48,15 @@ class LoginForm(forms.Form):
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
     )
 
-class PresensiForm(forms.Form):
-    nama = forms.CharField(label='Nama', max_length=100)
-    tanggal = forms.DateField(label='Tanggal', widget=forms.SelectDateWidget())
-    status_kehadiran = forms.ChoiceField(
-        label='Status Kehadiran',
-        choices=[
-            ('hadir', 'Hadir'),
-            ('tidak_hadir', 'Tidak Hadir'),
-            ('izin', 'Izin'),
-        ]
-    )
+class PresensiForm(forms.ModelForm):
+    class Meta:
+        model = Presensi
+        fields = ['tanggal', 'status', 'karyawan']
+        labels = {
+            'tanggal': 'Tanggal',
+            'status': 'Status Kehadiran',
+            'karyawan': 'Nama Karyawan'
+        }
+        widgets = {
+            'tanggal': forms.SelectDateWidget(),
+        }

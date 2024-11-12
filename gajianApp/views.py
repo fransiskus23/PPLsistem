@@ -2,24 +2,20 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .models import KaryawanCasual, Presensi, SlipGaji, ItemGaji
-from .forms import KaryawanCasualForm, LoginForm, PresensiForm
-from .models import Presensi  
+from .forms import KaryawanCasualForm, LoginForm, PresensiForm  
 
 def tambah_presensi(request):
     if request.method == 'POST':
         form = PresensiForm(request.POST)
         if form.is_valid():
-            # Proses data form dan simpan ke model
-            presensi = Presensi(
-                nama=form.cleaned_data['nama'],
-                tanggal=form.cleaned_data['tanggal'],
-                status_kehadiran=form.cleaned_data['status_kehadiran']
-            )
-            presensi.save()  # Simpan ke database
-            return redirect('presensi')  # Redirect ke halaman presensi
+            form.save()  # Simpan data presensi ke database
+            messages.success(request, 'Data presensi berhasil disimpan!')
+            return redirect('presensi')  # Pastikan URL 'presensi' sesuai dengan nama di urls.py
+        else:
+            messages.error(request, 'Data presensi gagal disimpan!')
     else:
-        form = PresensiForm()  # Inisialisasi form kosong jika bukan POST
-
+        form = PresensiForm()
+    
     return render(request, 'tambah_presensi.html', {'form': form})
 
 def tambah_karyawan(request):
@@ -28,7 +24,7 @@ def tambah_karyawan(request):
         if form.is_valid():
             form.save()  # Menyimpan data ke database
             messages.success(request, 'Data karyawan berhasil disimpan.')
-            return redirect('daftar_karyawan')  # Arahkan ke halaman daftar karyawan setelah penyimpanan berhasil
+            return redirect('daftar_karyawan')  
         else:
             messages.error(request, 'Gagal menyimpan data. Periksa form dan coba lagi.')
     else:
@@ -41,6 +37,14 @@ def tambah_karyawan(request):
 def daftar_karyawan(request):
     karyawan_list = KaryawanCasual.objects.all()
     return render(request, 'daftar_karyawan.html', {'karyawan_list': karyawan_list})
+
+from django.shortcuts import render
+from .models import Presensi  # sesuaikan dengan model Anda
+
+def presensi(request):
+    presensi_list = Presensi.objects.select_related('karyawan').all()  # Menggunakan select_related untuk optimalisasi query
+    return render(request, 'presensi.html', {'presensi_list': presensi_list})
+
 
 def login_view(request):
     if request.method == "POST":
@@ -56,10 +60,6 @@ def login_view(request):
             messages.error(request, 'Username atau password salah.')
     
     return render(request, 'registration/login.html')
-
-def presensi(request):
-    presensi_list = Presensi.objects.select_related('karyawan').all()  # Mengambil data presensi beserta karyawan
-    return render(request, 'presensi.html', {'presensi_list': presensi_list})
 
 def index(request):
     return render(request, 'index.html')
