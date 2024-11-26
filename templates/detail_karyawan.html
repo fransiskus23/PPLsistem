@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h3>Detail Karyawan</h3>
+    </div>
+    <div class="card-body">
+      <p><strong>Nama:</strong> {{ karyawan.nama }}</p>
+      <p><strong>Email:</strong> {{ karyawan.email }}</p>
+      <p><strong>Tanggal Lahir:</strong> {{ karyawan.ttl }}</p>
+      <p><strong>No HP:</strong> {{ karyawan.no_hp }}</p>
+      <p><strong>Tanggal Bergabung:</strong> {{ karyawan.tgl_bergabung }}</p>
+      <p><strong>Jabatan:</strong> {{ karyawan.jabatan }}</p>
+    </div>
+    <div class="card-footer">
+      <a href="{% url 'daftar_karyawan' %}" class="btn btn-secondary">Kembali</a>
+      <a href="{% url 'edit_karyawan' karyawan.id %}" class="btn btn-warning">Edit</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -29,11 +29,11 @@ class KaryawanCasualForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     username = forms.CharField(
-        label="Username", 
+        label="Nama Karyawan", 
         max_length=100, 
         widget=forms.TextInput(attrs={
             'class': 'form-control', 
-            'placeholder': 'Username'
+            'placeholder': 'Nama'
         })
     )
     password = forms.CharField(
@@ -51,12 +51,12 @@ class LoginForm(forms.Form):
 class PresensiForm(forms.ModelForm):
     class Meta:
         model = Presensi
-        fields = ['tanggal', 'status', 'karyawan']
+        fields = ['status', 'karyawan']  # Hanya mengambil status dan karyawan
         labels = {
-            'tanggal': 'Tanggal',
             'status': 'Status Kehadiran',
             'karyawan': 'Nama Karyawan'
         }
         widgets = {
-            'tanggal': forms.SelectDateWidget(),
+            'status': forms.Select(attrs={'class': 'form-select'}),
+            'karyawan': forms.Select(attrs={'class': 'form-select'}),
         }

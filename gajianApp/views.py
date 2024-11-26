@@ -3,26 +3,46 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .models import KaryawanCasual, Presensi, SlipGaji, ItemGaji
 from .forms import KaryawanCasualForm, LoginForm, PresensiForm  
+from django import forms
 
 def tambah_presensi(request):
     if request.method == 'POST':
-        form = PresensiForm(request.POST)
-        if form.is_valid():
-            form.save()  # Simpan data presensi ke database
-            messages.success(request, 'Data presensi berhasil disimpan!')
-            return redirect('presensi')  # Pastikan URL 'presensi' sesuai dengan nama di urls.py
+        # Ambil data dari form
+        karyawan_id = request.POST.get('karyawan')
+        status = request.POST.get('status')
+
+        # Validasi input
+        if not karyawan_id or not status:
+            messages.error(request, 'Semua field harus diisi!')
         else:
-            messages.error(request, 'Data presensi gagal disimpan!')
-    else:
-        form = PresensiForm()
+            try:
+                # Cek apakah karyawan ada
+                karyawan = KaryawanCasual.objects.get(id=karyawan_id)
+                
+                # Cek apakah presensi sudah ada untuk hari ini
+                if Presensi.objects.filter(karyawan=karyawan, tanggal=date.today()).exists():
+                    messages.error(request, f"Presensi untuk {karyawan.nama} pada hari ini sudah ada!")
+                else:
+                    # Simpan presensi
+                    Presensi.objects.create(
+                        karyawan=karyawan.nama,
+                        tanggal=date.today(),
+                        status=status
+                    )
+                    messages.success(request, f'Presensi untuk {karyawan.nama} berhasil ditambahkan!')
+                    return redirect('presensi')  # Ganti dengan URL halaman presensi
+            except KaryawanCasual.DoesNotExist:
+                messages.error(request, 'Karyawan tidak ditemukan!')
     
-    return render(request, 'tambah_presensi.html', {'form': form})
+    # Ambil semua karyawan untuk dropdown
+    karyawan_list = KaryawanCasual.objects.all()
+    return render(request, 'tambah_presensi.html', {'karyawan_list': karyawan_list})
 
 def tambah_karyawan(request):
     if request.method == 'POST':
         form = KaryawanCasualForm(request.POST)
         if form.is_valid():
-            form.save()  # Menyimpan data ke database
+            form.save() 
             messages.success(request, 'Data karyawan berhasil disimpan.')
             return redirect('daftar_karyawan')  
         else:
@@ -39,27 +59,31 @@ def daftar_karyawan(request):
     return render(request, 'daftar_karyawan.html', {'karyawan_list': karyawan_list})
 
 from django.shortcuts import render
-from .models import Presensi  # sesuaikan dengan model Anda
+from .models import Presensi 
 
 def presensi(request):
     presensi_list = Presensi.objects.select_related('karyawan').all()  # Menggunakan select_related untuk optimalisasi query
     return render(request, 'presensi.html', {'presensi_list': presensi_list})
 
 
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=100, label="Nama Karyawan")
+    password = forms.CharField(widget=forms.PasswordInput, label="Password")
+
+# View untuk login
 def login_view(request):
     if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        # Otentikasi pengguna
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # Autentikasi pengguna
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('index')  # arahkan ke halaman home setelah login
+            return redirect('index')  # Arahkan ke dashboard setelah login
         else:
-            messages.error(request, 'Username atau password salah.')
-    
-    return render(request, 'registration/login.html')
+            messages.error(request, "Username atau password salah.")
+    return render(request, 'login.html')
 
 def index(request):
     return render(request, 'index.html')

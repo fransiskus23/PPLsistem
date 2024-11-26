@@ -512,31 +512,48 @@
 
       <div class="container">
         <div class="page-inner">
-          <!-- Header Section -->
-          <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-            <div>
-              <h3 class="fw-bold mb-3">Daftar Presensi</h3>
+          <h3 class="fw-bold mb-3">Tambah Presensi</h3>
+
+          <!-- Form Presensi -->
+          <form method="POST" action="{% url 'tambah_presensi' %}">
+            {% csrf_token %}
+
+            <!-- Nama Karyawan -->
+            <div class="mb-3">
+              <label for="karyawan" class="form-label">Nama Karyawan</label>
+              <select id="karyawan" name="karyawan" class="form-select" required>
+                <option value="" disabled selected>Pilih Nama Karyawan</option>
+                {% for karyawan in karyawan_list %}
+                <option value="{{ karyawan.id }}">{{ karyawan.nama }}</option>
+                {% endfor %}
+              </select>
             </div>
-          </div>
 
-          <!-- Form Section -->
-          <h2 class="btn btn-primary btn-round mb-4">Tambahkan Presensi</h2>
+            <!-- Status Kehadiran -->
+            <div class="mb-3">
+              <label for="status" class="form-label">Status Kehadiran</label>
+              <select id="status" name="status" class="form-select" required>
+                <option value="" disabled selected>Pilih Status Kehadiran</option>
+                <option value="hadir">Hadir</option>
+                <option value="tidak hadir">Tidak Hadir</option>
+                <option value="cuti">Cuti</option>
+                <option value="sakit">Sakit</option>
+              </select>
+            </div>
 
-<form method="POST" action="{% url 'tambah_presensi' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+            <!-- Submit -->
+            <button type="submit" class="btn btn-primary">Simpan Presensi</button>
+          </form>
 
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert {{ message.tags }}">{{ message }}</div>
-    {% endfor %}
-{% endif %}
-
-
+          <!-- Notifikasi Pesan -->
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert {{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
         </div>
       </div>
+
 
       <!-- Footer Section -->
       <footer class="footer">
@@ -544,23 +561,22 @@
           <nav class="pull-left">
             <ul class="nav">
               <li class="nav-item">
-                <a class="nav-link" href="http://www.themekita.com">ThemeKita</a>
+                <a href="#"></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Help</a>
+                <a class="nav-link" href="#"> Help </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Licenses</a>
+                <a class="nav-link" href="#"> Licenses </a>
               </li>
             </ul>
           </nav>
-          <div class="copyright">
-            2024, made with <i class="fa fa-heart heart text-danger"></i> by
-            <a href="http://www.themekita.com">ThemeKita</a>
+          <div class="">
+             
+            <a href="#"></a>
           </div>
           <div>
-            Distributed by
-            <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
+            
           </div>
         </div>
       </footer>
